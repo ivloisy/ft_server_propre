@@ -6,11 +6,13 @@
 #    By: ivanloisy <ivanloisy@student.42.fr>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/04 18:40:28 by ivanloisy         #+#    #+#              #
-#    Updated: 2021/05/05 13:04:18 by ivanloisy        ###   ########.fr        #
+#    Updated: 2021/05/05 20:47:33 by ivanloisy        ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 FROM debian:buster
+
+#ENV AUTOINDEX="on"
 
 RUN apt-get update -yq \
 && apt-get upgrade -y
@@ -20,6 +22,7 @@ RUN apt-get install mariadb-server mariadb-client -y
 RUN apt-get install wget -y
 RUN wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
+RUN apt-get install openssl -y
 
 RUN mkdir -p /var/www/localhost/phpmyadmin
 RUN mkdir -p /var/www/localhost/wordpress
@@ -27,11 +30,13 @@ RUN mkdir -p /var/www/localhost/wordpress
 RUN tar xvf phpMyAdmin-latest-all-languages.tar.gz --strip-components=1 -C /var/www/localhost/phpmyadmin
 
 COPY ./srcs/init.sh ./
-COPY ./srcs/localhost /etc/nginx/sites-available
+COPY ./srcs/ft_server /etc/nginx/sites-available
 COPY ./srcs/config.inc.php /var/www/localhost/phpmyadmin/config.inc.php
+COPY ./srcs/autoindex /usr/local/bin
 
 RUN chmod -R 660 /var/www/localhost/phpmyadmin/config.inc.php
 RUN chown -R www-data:www-data /var/www/localhost/phpmyadmin
+RUN	chmod +x /usr/local/bin/autoindex
 
 CMD bash init.sh \
 && tail -f /dev/null

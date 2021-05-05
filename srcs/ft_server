@@ -1,0 +1,32 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    ft_server                                          :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ivanloisy <ivanloisy@student.42.fr>        +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2021/05/05 20:30:55 by ivanloisy         #+#    #+#              #
+#    Updated: 2021/05/05 21:36:56 by ivanloisy        ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name localhost www.localhost;
+    root /var/www/localhost;
+    index index.php index.html index.htm;
+
+    location / {
+        try_files $uri $uri/ =404;
+        autoindex on;
+    }
+
+    location ~ \.php$ {
+        root /var/www/localhost;
+        include snippets/fastcgi-php.conf;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_pass unix:/run/php/php7.3-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+}

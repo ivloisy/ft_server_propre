@@ -151,5 +151,5 @@ $cfg['SaveDir'] = '';
  * You can find more configuration options in the documentation
  * in the doc/ folder or at <https://docs.phpmyadmin.net/>.
  */
-/*$cfg['Servers'][$i]['ssl_key'] = '/etc/ssl/private/localhost.key';
-$cfg['Servers'][$i]['ssl_cert'] = '/etc/ssl/certs/localhost.pem';*/
+// $cfg['Servers'][$i]['ssl_key'] = '/etc/ssl/private/localhost.key';
+// $cfg['Servers'][$i]['ssl_cert'] = '/etc/ssl/certs/localhost.pem';
